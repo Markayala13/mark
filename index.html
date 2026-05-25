@@ -835,10 +835,9 @@
       playsinline
       autoplay
       loop
-      preload="metadata"
+      preload="auto"
       aria-label="Estudio fotografico con auto deportivo bajo luces de neon coral, magenta y turquesa."
     ></video>
-    <img class="poster" src="assets/poster.png" alt="" hidden id="heroFallback" />
   </div>
   <div class="hero__scrim"></div>
 
@@ -1311,28 +1310,7 @@
 (() => {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const video = document.getElementById('heroVideo');
-  const fallback = document.getElementById('heroFallback');
-
-  if (video) {
-    const tryPlay = () => video.play().catch(() => {});
-
-    if (!reduced) {
-      video.addEventListener('loadeddata', tryPlay, { once: true });
-      tryPlay();
-    } else {
-      video.removeAttribute('autoplay');
-      try { video.pause(); } catch(_) {}
-      fallback.hidden = false;
-      video.style.display = 'none';
-    }
-
-    setTimeout(() => {
-      if (!reduced && video.paused && video.currentTime === 0) {
-        fallback.hidden = false;
-        video.style.display = 'none';
-      }
-    }, 1200);
-  }
+  if (video && !reduced) video.play().catch(() => {});
 
   if (!reduced && window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
