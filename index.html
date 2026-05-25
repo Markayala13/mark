@@ -783,11 +783,6 @@
   /* utility fade */
   .reveal{opacity:0; transform:translateY(40px)}
 
-  /* reduced motion */
-  @media (prefers-reduced-motion:reduce){
-    .reveal,.sol__col,#problema .line{opacity:1 !important; transform:none !important}
-    .hero__scroll::after{animation:none}
-  }
 </style>
 </head>
 <body>
@@ -1308,11 +1303,10 @@
 <script src="assets/ScrollTrigger.min.js"></script>
 <script>
 (() => {
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const video = document.getElementById('heroVideo');
-  if (video && !reduced) video.play().catch(() => {});
+  if (video) video.play().catch(() => {});
 
-  if (!reduced && window.gsap && window.ScrollTrigger) {
+  if (window.gsap && window.ScrollTrigger) {
     gsap.registerPlugin(ScrollTrigger);
 
 
@@ -1378,7 +1372,6 @@
 <!-- GALERIA: filters + parallax + lightbox -->
 <script>
 (() => {
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mobile = window.matchMedia('(max-width: 760px)').matches;
 
   // Before/after sliders
@@ -1479,7 +1472,7 @@
       const matches = cards.filter(c => f === 'all' || c.dataset.cat === f);
       const hide = cards.filter(c => !(f === 'all' || c.dataset.cat === f));
 
-      if (window.gsap && !reduced) {
+      if (window.gsap) {
         gsap.to(hide, {
           opacity: 0, scale: 0.96, duration: 0.35, ease: 'power2.inOut', stagger: 0.04,
           onComplete: () => hide.forEach(c => c.classList.add('is-hidden'))
@@ -1495,7 +1488,7 @@
   });
 
   // Entry animation
-  if (window.gsap && window.ScrollTrigger && !reduced) {
+  if (window.gsap && window.ScrollTrigger) {
     gsap.utils.toArray('#galeria .gal__head, #galeria .gal__filters').forEach((el, i) => {
       gsap.fromTo(el, { opacity: 0, y: 30 }, {
         opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', delay: i * 0.12,
